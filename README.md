@@ -1,4 +1,4 @@
-# Database Backup to Supabase Storage
+# PostgreSQL Backup to Supabase Storage
 
 This is a tool that lets you backup your PostgreSQL database to Supabase Storage. The tool runs as a Docker container and can be scheduled to run at specific times using a cron service like Render.com.
 
