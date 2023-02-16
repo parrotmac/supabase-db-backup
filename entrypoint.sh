@@ -17,7 +17,7 @@ echo "Creating dump at ${DUMP_FILE}"
 
 if [[ -n "${USE_PGDUMPALL:-}" ]]; then
 	export PGPASSWORD="$(echo "${DATABASE_URL}" | awk -F'[:@]' '{ print $3 }')"
-	time pg_dumpall -d "${DATABASE_URL}" | gzip > "${DUMP_FILE}"
+	time pg_dumpall -d "${DATABASE_URL}" --no-role-passwords | gzip > "${DUMP_FILE}"
 else
 	time pg_dump -d "${DATABASE_URL}" | gzip > "${DUMP_FILE}"
 fi
