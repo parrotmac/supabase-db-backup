@@ -10,11 +10,17 @@ SUPABASE_BUCKET_NAME="${SUPABASE_BUCKET_NAME:-database-backups}"
 
 TIMESTAMP="$(date +%s)"
 
-DUMP_FILE="db-dump-${TIMESTAMP}.sql"
+DUMP_FILE="db-dump-${TIMESTAMP}.sql.gz"
 
 echo "Creating dump at ${DUMP_FILE}"
 
-time pg_dump -d "${DATABASE_URL}" -f "${DUMP_FILE}"
+
+if [[ -n "${USE_PGDUMPALL:-}" ]]; then
+	PGPASSWORD="$(echo "${DATABASE_URL}" | awk -F'[:@]' '{ print $3 }')"
+	time pg_dumpall -d "${DATABASE_URL}" | gzip > "${DUMP_FILE}"
+else
+	time pg_dump -d "${DATABASE_URL}" | gzip > "${DUMP_FILE}"
+fi
 
 echo "Dump complete. Uploading..."
 
