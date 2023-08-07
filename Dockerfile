@@ -1,4 +1,4 @@
-FROM alpine:3.17
+FROM alpine:3.18.2
 
 RUN apk add curl git bash postgresql-client
 
